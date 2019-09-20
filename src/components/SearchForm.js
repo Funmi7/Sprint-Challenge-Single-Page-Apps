@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 // import Axios from "axios";
 
+
+
+export default function SearchForm(props) {
+
 const [searchValue, setSearchValue] = useState('');
 
 const handleSearchInputChanges = (e) => {
@@ -11,17 +15,18 @@ const resetInputField = () => {
   setSearchValue('')
 }
 
-export default function SearchForm(e) {
+const callSearchFunction = (e) => {
   e.preventDefault();
   props.search(searchValue);
-  resetInputField;
+  resetInputField();
+}
   return (
 
     <section className="search-form">
-     // Add a search form here
+     Add a search form here
      <form>
         <input
-            value={search}
+            value={searchValue}
             onChange={handleSearchInputChanges}
             id='searchInput'
             type='text'
