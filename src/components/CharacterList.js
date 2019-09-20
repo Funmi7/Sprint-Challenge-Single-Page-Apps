@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-// import {Link} from 'react-router-dom';
 import CharacterCard from './CharacterCard';
+
 
 const charactersAPI = 'https://rickandmortyapi.com/api/character/'
 
@@ -9,6 +9,7 @@ export default function CharacterList() {
   // TODO: Add useState to track data from useEffect
 
   const [characters, setCharacters] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     // TODO: Add API Request here - must run in `useEffect`
@@ -28,8 +29,26 @@ export default function CharacterList() {
     getCharacters();
   }, []);
 
+  const search = searchValue => {
+    axios
+    .get(`https://rickandmortyapi.com/api/character/?name=${searchValue}`)
+    .then(response => {
+      if(response === 'True') {
+        setCharacters(response.data.results)
+      }else {
+        setErrorMessage(response.data.Error);
+      }
+    })
+    .catch(error => {
+      console.log('Error', error)
+    })
+   
+  }
+
   return (
     <section className="character-list">
+      <SearchForm search={search} />
+
       {characters.map(character => (
         <CharacterCard 
         image={character.image}

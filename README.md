@@ -28,6 +28,8 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 - [ ]  Explain benefit(s) using `client-side routing`?
 
 > Answer:
+Because a client-side route happens when the route is handled internally by the JavaScript that is loaded on the page, the whole page won’t refresh .There are just some elements inside the application that will change. This causes less data to be processed and routing between views is generally faster. Smooth transitions and animationsbetween views are easier to implement.
+
 
 ## Project Set Up
 
