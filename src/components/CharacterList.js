@@ -10,7 +10,10 @@ export default function CharacterList() {
   // TODO: Add useState to track data from useEffect
 
   const [characters, setCharacters] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [filteredCharacters, setFilteredCharacters] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     // TODO: Add API Request here - must run in `useEffect`
@@ -30,34 +33,34 @@ export default function CharacterList() {
     getCharacters();
   }, []);
 
-  const search = searchValue => {
-    axios
-    .get(`https://rickandmortyapi.com/api/character/?name=${searchValue}`)
-    .then(response => {
-      if(response === 'True') {
-        setCharacters(response.data.results)
-      }else {
-        setErrorMessage(response.data.Error);
-      }
+  const onSearch = e => {
+    setSearchTerm(e.target.value)
+
+    let filteredCharacters = [];
+
+    filteredCharacters = characters.filter(character => {
+      return character.name.includes(e.target.value)
     })
-    .catch(error => {
-      console.log('Error', error)
-    })
-   
+
+    setFilteredCharacters(filteredCharacters)
+  }
+
+  let charactersToShow = characters;
+
+  if(searchTerm) {
+    charactersToShow = filteredCharacters;
   }
 
   return (
     <section className="character-list">
-      <SearchForm search={search} />
-
-      {characters.map(character => (
-        <CharacterCard 
-        image={character.image}
-        name={character.name}
-        species={character.species}
-        gender={character.gender}
-        />
-      ))}
+      <SearchForm onSearch={onSearch} searchTerm={searchTerm}/>
+      {
+        charactersToShow.map(newCharacter => {
+          return (
+            <CharacterCard character={newCharacter}/>
+          )
+        })
+      })
     </section>
   );
 }
